@@ -1,2 +1,2 @@
 # Análisis de datos exploratorio
-Metabolismo en distintos escenarios de acidificación
+Metabolismo  bajo distintos escenarios de acidificación
