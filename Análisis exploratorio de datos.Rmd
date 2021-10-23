@@ -1,0 +1,46 @@
+---
+title: "Análisis de datos exploratorio"
+author: "Paz_Caballero"
+date: "21/10/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r,echo=FALSE}
+head(Datos_Metabolismo)
+```
+```{r}
+tail(Datos_Metabolismo)
+```
+
+
+
+
+```{r}
+summary(Datos_Metabolismo)
+```
+```{r}
+str(Datos_Metabolismo)
+```
+```{r}
+par(mfrow=c(1,2))
+
+hist(Datos_Metabolismo$mgO2_h_1_g_1, col="light blue", main = "Metabolismo", xlab = "Consumo de Oxígeno")
+
+boxplot(Datos_Metabolismo$mgO2_h_1_g_1, col="light blue", main = "Boxplot metabolismo", ylab = "Consumo de Oxígeno")
+```
+
+```{r}
+mean(Datos_Metabolismo$mgO2_h_1_g_1)
+sd(Datos_Metabolismo$mgO2_h_1_g_1)
+range(Datos_Metabolismo$mgO2_h_1_g_1)
+quantile(Datos_Metabolismo$mgO2_h_1_g_1)
+```
+```{r}
+plot(density(Datos_Metabolismo$mgO2_h_1_g_1), main="Densidad empírica", xlab="Consumo de Oxígeno")
+```
+
+
