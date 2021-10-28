@@ -1,5 +1,7 @@
 # Análisis de datos exploratorio
 
+# Author: Paz Caballero
+
 ## Metabolismo bajo distintos escenarios de acidificación
 El aumento del Dióxido de Carbono (CO2) antropogénico está causando una disminución en el pH de los océanos, en un proceso conocido como acidificación de los océanos (AO). Esto se produce debido a que una porción de CO2 se disuelve en el agua de mar formando ácido carbónico, lo que trae como consecuencia una disminución en el pH del agua de mar y la reducción de la concentración del ión carbonato (CO3).La acidificación de los océanos es una de las consecuencias del cambio climático, el aumento de las emisiones de CO2 ha provocado que el pH del agua de mar disminuya, en consecuencia la saturación de carbonato, afectando principalmente a organismos calcificadores; a través del desequilibrio acido-base y la reducción de la capacidad de transporte de oxígeno.
 Diversos estudios han señalado que las respuestas de estos organismos frente a la acidificación pueden variar entre especies e incluso entre poblaciones de una misma especie, de acuerdo con las características del lugar donde habitan. En este contexto, los fenotipos responden diferencialmente a cambios en las condiciones ambientales, lo que se conoce como plasticidad fenotípica. Entender las respuestas diferenciales de los organismos frente a la acidificación del océano, resulta clave para predecir los efectos de la acidificación del océano sobre diferentes especies y poblaciones.
