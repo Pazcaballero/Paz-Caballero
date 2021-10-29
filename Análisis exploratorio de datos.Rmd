@@ -7,31 +7,53 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(stats)
+library(graphics)
+library(ggplot2)
+library(psych)
+library(readxl)
+library(dplyr)
+
 ```
+
+```{r}
+Datos_Metabolismo <- read_excel("Datos Metabolismo.xlsx")
+Datos_Metabolismo$Especie <- as.factor(Datos_Metabolismo$Especie)
+Datos_Metabolismo$Localidad <- as.factor(Datos_Metabolismo$Localidad)
+Datos_Metabolismo$Tratamiento <- as.factor(Datos_Metabolismo$Tratamiento)
+```
+
 
 ```{r,echo=FALSE}
 head(Datos_Metabolismo)
 ```
+
 ```{r}
 tail(Datos_Metabolismo)
 ```
 
-
-
-
 ```{r}
 summary(Datos_Metabolismo)
 ```
-```{r}
+
+```{r,echo=FALSE}
 str(Datos_Metabolismo)
 ```
+
+# Para saber si mis datos tienen una distribución normal  
 ```{r}
 par(mfrow=c(1,2))
 
-hist(Datos_Metabolismo$mgO2_h_1_g_1, col="light blue", main = "Metabolismo", xlab = "Consumo de Oxígeno")
+hist(Datos_Metabolismo$mgO2_h_1_g_1, col="light blue", main = "Histograma Metabolismo", xlab = "Metabolismo")
 
-boxplot(Datos_Metabolismo$mgO2_h_1_g_1, col="light blue", main = "Boxplot metabolismo", ylab = "Consumo de Oxígeno")
+boxplot(Datos_Metabolismo$mgO2_h_1_g_1, col="light blue", main = "Boxplot Metabolismo", ylab = "Metabolismo")
 ```
+# Según el histograma mis datos no tienen una distribución normal
+
+
+
+
+
 
 ```{r}
 mean(Datos_Metabolismo$mgO2_h_1_g_1)
@@ -39,8 +61,19 @@ sd(Datos_Metabolismo$mgO2_h_1_g_1)
 range(Datos_Metabolismo$mgO2_h_1_g_1)
 quantile(Datos_Metabolismo$mgO2_h_1_g_1)
 ```
+
 ```{r}
 plot(density(Datos_Metabolismo$mgO2_h_1_g_1), main="Densidad empírica", xlab="Consumo de Oxígeno")
 ```
 
+
+```{r}
+ggplot(Datos_Metabolismo, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad)) +
+    geom_boxplot()+
+  labs(y="Tasa metabólica")
+```
+
+```{r}
+
+```
 
