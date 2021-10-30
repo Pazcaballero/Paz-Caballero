@@ -1,18 +1,19 @@
 ---
 title: "Análisis de datos exploratorio"
 author: "Paz_Caballero"
-date: "21/10/2021"
+date:  "`r format(Sys.time(), '%d %B %Y')`"
 output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(stats)
 library(graphics)
 library(ggplot2)
 library(psych)
 library(readxl)
 library(dplyr)
+library(knitr)
 
 ```
 
@@ -32,7 +33,7 @@ head(Datos_Metabolismo)
 tail(Datos_Metabolismo)
 ```
 
-```{r}
+```{r,echo=FALSE}
 summary(Datos_Metabolismo)
 ```
 
@@ -41,39 +42,77 @@ str(Datos_Metabolismo)
 ```
 
 # Para saber si mis datos tienen una distribución normal  
-```{r}
-par(mfrow=c(1,2))
 
-hist(Datos_Metabolismo$mgO2_h_1_g_1, col="light blue", main = "Histograma Metabolismo", xlab = "Metabolismo")
 
-boxplot(Datos_Metabolismo$mgO2_h_1_g_1, col="light blue", main = "Boxplot Metabolismo", ylab = "Metabolismo")
+
+```{r,echo=FALSE,message=FALSE}
+ggplot(Datos_Metabolismo, aes(x = mgO2_h_1_g_1)) +
+  geom_histogram(aes(color = Especie), 
+  position = "identity", bins = 30, alpha = 0.4)
 ```
+
+
+
+
 # Según el histograma mis datos no tienen una distribución normal
 
 
-
-
-
-
-```{r}
+```{r,echo=FALSE}
 mean(Datos_Metabolismo$mgO2_h_1_g_1)
 sd(Datos_Metabolismo$mgO2_h_1_g_1)
 range(Datos_Metabolismo$mgO2_h_1_g_1)
 quantile(Datos_Metabolismo$mgO2_h_1_g_1)
 ```
 
-```{r}
+```{r,echo=FALSE}
 plot(density(Datos_Metabolismo$mgO2_h_1_g_1), main="Densidad empírica", xlab="Consumo de Oxígeno")
 ```
 
 
-```{r}
+```{r,echo=FALSE}
 ggplot(Datos_Metabolismo, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad)) +
     geom_boxplot()+
   labs(y="Tasa metabólica")
 ```
+# Descripción de mi gráfico
 
-```{r}
 
+```{r,echo=FALSE}
+# Distribución acumulada empírica.
+plot(ecdf(Datos_Metabolismo$mgO2_h_1_g_1), main="Distribución acumulada empírica", xlab="mgO2_h_1_g_1")
 ```
+# Agregar descripción de mi gráfico
+
+```{r,echo=FALSE}
+interaction.plot(Datos_Metabolismo$Localidad, Datos_Metabolismo$Especie, Datos_Metabolismo$mgO2_h_1_g_1, fun = mean, xlab = "", ylab = "Tasa Metabólica", col=1:2, trace.label="Especie", pch = c(15, 16), type = "b")
+```
+
+# Mis datos muestran interacción 
+
+```{r,echo=FALSE}
+plot.design(Datos_Metabolismo$Localidad~ Datos_Metabolismo$mgO2_h_1_g_1 * Datos_Metabolismo$Especie, xlab = "Tratamientos", ylab="Tasa Metabólica", col="blue")
+```
+
+
+
+
+```{r,echo=FALSE}
+tabla1<-Datos_Metabolismo%>%
+        group_by(Localidad,Especie)%>%
+        summarise(media=mean(mgO2_h_1_g_1),varianza=var(mgO2_h_1_g_1))
+  
+```
+
+
+
+
+
+\newpage
+
+```{r,echo=FALSE}
+# Tabla con los datos
+knitr::kable(tabla1,caption ="Media y varianza de Tasa metabólica")
+```
+
+
 
