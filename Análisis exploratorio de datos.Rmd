@@ -94,7 +94,7 @@ plot.design(Datos_Metabolismo$Localidad~ Datos_Metabolismo$mgO2_h_1_g_1 * Datos_
 ```
 
 
-
+#Hay mayor variabilidad entre localidades 
 
 ```{r,echo=FALSE}
 tabla1<-Datos_Metabolismo%>%
