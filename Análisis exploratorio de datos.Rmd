@@ -69,12 +69,14 @@ plot(density(Datos_Metabolismo$mgO2_h_1_g_1), main="Densidad empírica", xlab="C
 ```
 
 
+
 ```{r,echo=FALSE}
-ggplot(Datos_Metabolismo, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad)) +
+ggplot(Datos_Metabolismo, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad),select(Especie="Scurria viridula")) + 
     geom_boxplot()+
   labs(y="Tasa metabólica")
 ```
-# Descripción de mi gráfico
+# El metabolismo de ambas especies correspondiente a la localidad de los Molles tiene una baja dispersión,es decir, su distribución es menor en comparación a la localidad de Talcaruca. Además, la población de Los Molles presenta una tasa metabólica promedio menor que la localidad de Talcaruca, especialmente en el tratamiento de 500 microatmósferas.
+#También es posible observar que los datos no tienen una distribución normal, y que en ambas localidades presenta valores atípicos o valores extremos.
 
 
 ```{r,echo=FALSE}
@@ -96,7 +98,7 @@ plot.design(Datos_Metabolismo$Localidad~ Datos_Metabolismo$mgO2_h_1_g_1 * Datos_
 
 #Hay mayor variabilidad entre localidades 
 
-```{r,echo=FALSE}
+```{r,echo=FALSE,message=FALSE}
 tabla1<-Datos_Metabolismo%>%
         group_by(Localidad,Especie)%>%
         summarise(media=mean(mgO2_h_1_g_1),varianza=var(mgO2_h_1_g_1))
