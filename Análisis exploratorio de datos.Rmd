@@ -24,12 +24,13 @@ Datos_Metabolismo$Localidad <- as.factor(Datos_Metabolismo$Localidad)
 Datos_Metabolismo$Tratamiento <- as.factor(Datos_Metabolismo$Tratamiento)
 ```
 
+Se evaluaron, en condiciones de laboratorio, los efectos del incremento del pCO2 sobre las condiciones fisiológicas y metabólicas de ambas especies, y sobre las respuestas fenotípicas a nivel de población. Para esto, Scurria zebrina y Scurria viridula, fueron expuestos a 500 µatm (valores actuales) y a 800 y 1500 µatm, niveles de pCO2 que se pronostican para el año 2050 y 2100, respectivamente.
 
 ```{r,echo=FALSE}
 head(Datos_Metabolismo)
 ```
 
-```{r}
+```{r,echo=FALSE}
 tail(Datos_Metabolismo)
 ```
 
@@ -40,21 +41,24 @@ summary(Datos_Metabolismo)
 ```{r,echo=FALSE}
 str(Datos_Metabolismo)
 ```
+\newpage
 
-# Para saber si mis datos tienen una distribución normal  
-
-
-
-```{r,echo=FALSE,message=FALSE}
+```{r}
 ggplot(Datos_Metabolismo, aes(x = mgO2_h_1_g_1)) +
   geom_histogram(aes(color = Especie), 
   position = "identity", bins = 30, alpha = 0.4)
 ```
+Figura 1. Distribución de metabolismo de ambas especies.
 
+# Se observa que no existe una distibución normal, además los datos se encuentran hacia la izquiera de la media, (el metabolismo (variable respuesta) es una variable cuantitativa continua).
 
-
-
-# Según el histograma mis datos no tienen una distribución normal
+\newpage
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+ggplot(Datos_Metabolismo, aes(x = mgO2_h_1_g_1,)) +
+  geom_density(aes(color = Especie), 
+  position = "identity", bins = 30, alpha = 0.4)
+```
+Figura 2. Densidad de probabilidad de cada especie. 
 
 
 ```{r,echo=FALSE}
@@ -64,39 +68,61 @@ range(Datos_Metabolismo$mgO2_h_1_g_1)
 quantile(Datos_Metabolismo$mgO2_h_1_g_1)
 ```
 
+
+\newpage
+
 ```{r,echo=FALSE}
-plot(density(Datos_Metabolismo$mgO2_h_1_g_1), main="Densidad empírica", xlab="Consumo de Oxígeno")
+Datos_1 <- Datos_Metabolismo %>% filter(Especie == "Scurria zebrina")
 ```
 
 
-
 ```{r,echo=FALSE}
-ggplot(Datos_Metabolismo, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad),select(Especie="Scurria viridula")) + 
+ggplot(Datos_1, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad),main="Scurria zebrina") +
     geom_boxplot()+
   labs(y="Tasa metabólica")
 ```
-# El metabolismo de ambas especies correspondiente a la localidad de los Molles tiene una baja dispersión,es decir, su distribución es menor en comparación a la localidad de Talcaruca. Además, la población de Los Molles presenta una tasa metabólica promedio menor que la localidad de Talcaruca, especialmente en el tratamiento de 500 microatmósferas.
-#También es posible observar que los datos no tienen una distribución normal, y que en ambas localidades presenta valores atípicos o valores extremos.
+Figura 3. Tasa metabólica de Scurria zebrina , correspondiente a las localidades de Talcaruca y Los molles, bajo tres condiciones de acidificación.
+
+# La tasa metabólica correspondiente a Scurria zebrina de la localidad de Talcaruca presenta mayor variabilidad ya que la longitud de la "caja" es más grande en comparación a la localidad de Los Molles.  Además la posición de la mediana en Talcaruca de los tres tratamientos indica que tienen una  distribución simétrica en comparación a Los Molles. Además, la población de Los Molles presenta una asimetría negativa en los tratamientos de 500 y 800 microatmósferas. 
+# También se observa 1 dato extremo en la localidad de Talcaruca correspondiente al gtratamiento de 500 microatmósferas, y que no existe interacción de la tasa metabólica de ambas localidades cuando se sometieron en el tratamineto de 1500 microatmósferas.
+\newpage
+```{r}
+Datos_2 <- Datos_Metabolismo %>% filter(Especie == "Scurria viridula")
+```
 
 
+```{r}
+ggplot(Datos_2, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad),main="Scurria viridula") +
+    geom_boxplot()+
+  labs(y="Tasa metabólica")
+  
+```
+Figura 4. Tasa metabólica de Scurria viridula de ambas localidades, bajo tres condiciones de acidificación.
+
+# La tasa metabólica correspondiente a Scurria viridula de la localidad de Talcaruca presenta mayor variabilidad ya que la longitud de la "caja" es más grande en comparación a la localidad de Los Molles.  Además la posición de la mediana en Talcaruca de los tres tratamientos indica que tienen una  distribución simétrica en comparación a Los Molles. Se destaca que en la localidad de Los Molles tratamiento de 500, la mediana esta casi pegado al Q3, lo que se traduce en una menor variabilidad y una asimetría de los datos.  
+# También se observa más datos extremos (4) en ambas localidades, y que solo existe correlacion de ambas localidades en el tratamiento de 800 microatmósferas (No se solapan las "cajas") .
+
+\newpage
 ```{r,echo=FALSE}
 # Distribución acumulada empírica.
 plot(ecdf(Datos_Metabolismo$mgO2_h_1_g_1), main="Distribución acumulada empírica", xlab="mgO2_h_1_g_1")
 ```
-# Agregar descripción de mi gráfico
+Figura 5. Distribución acumulada empírica de la variable respuesta, en este caso, metabolismo. 
+
 
 ```{r,echo=FALSE}
 interaction.plot(Datos_Metabolismo$Localidad, Datos_Metabolismo$Especie, Datos_Metabolismo$mgO2_h_1_g_1, fun = mean, xlab = "", ylab = "Tasa Metabólica", col=1:2, trace.label="Especie", pch = c(15, 16), type = "b")
 ```
+Figura 6. Correlación de ambas especies de la localidad de Talcaruca y Los Molles.  
 
-# Mis datos muestran interacción 
+#Ambas especies muestran interacción en la localidad de los Molles
 
 ```{r,echo=FALSE}
 plot.design(Datos_Metabolismo$Localidad~ Datos_Metabolismo$mgO2_h_1_g_1 * Datos_Metabolismo$Especie, xlab = "Tratamientos", ylab="Tasa Metabólica", col="blue")
 ```
+Figura 7. Tasa metabólica bajo tres tratamientos de acidificación en ambas localidades.
 
-
-#Hay mayor variabilidad entre localidades 
+# Se observa que el factor localidad tiene mayor efecto sobre la variable respuesta. 
 
 ```{r,echo=FALSE,message=FALSE}
 tabla1<-Datos_Metabolismo%>%
@@ -115,6 +141,6 @@ tabla1<-Datos_Metabolismo%>%
 # Tabla con los datos
 knitr::kable(tabla1,caption ="Media y varianza de Tasa metabólica")
 ```
-
+# Se observa una media más alta del metabolismo en Scurria zebrina correspondiente a la localidad de Talcaruca. Sin embargo, en la localidad de Los Molles no se observan grandes diferencias.
 
 
