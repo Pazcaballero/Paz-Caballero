@@ -107,7 +107,7 @@ Figura 4. Tasa metabólica de Scurria viridula de ambas localidades, bajo tres c
 # Distribución acumulada empírica.
 plot(ecdf(Datos_Metabolismo$mgO2_h_1_g_1), main="Distribución acumulada empírica", xlab="mgO2_h_1_g_1")
 ```
-Figura 5. Distribución acumulada empírica de la variable respuesta, en este caso, metabolismo. 
+Figura 5. Distribución acumulada empírica de la variable respuesta, metabolismo. 
 
 
 ```{r,echo=FALSE}
