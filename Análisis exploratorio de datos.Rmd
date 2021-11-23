@@ -17,7 +17,7 @@ library(knitr)
 
 ```
 
-```{r}
+```{r,echo=FALSE}
 Datos_Metabolismo <- read_excel("Datos Metabolismo.xlsx")
 Datos_Metabolismo$Especie <- as.factor(Datos_Metabolismo$Especie)
 Datos_Metabolismo$Localidad <- as.factor(Datos_Metabolismo$Localidad)
@@ -43,7 +43,7 @@ str(Datos_Metabolismo)
 ```
 \newpage
 
-```{r}
+```{r,echo=FALSE}
 ggplot(Datos_Metabolismo, aes(x = mgO2_h_1_g_1)) +
   geom_histogram(aes(color = Especie), 
   position = "identity", bins = 30, alpha = 0.4)
@@ -86,12 +86,12 @@ Figura 3. Tasa metabólica de Scurria zebrina , correspondiente a las localidade
 # La tasa metabólica correspondiente a Scurria zebrina de la localidad de Talcaruca presenta mayor variabilidad ya que la longitud de la "caja" es más grande en comparación a la localidad de Los Molles.  Además la posición de la mediana en Talcaruca de los tres tratamientos indica que tienen una  distribución simétrica en comparación a Los Molles. Además, la población de Los Molles presenta una asimetría negativa en los tratamientos de 500 y 800 microatmósferas. 
 # También se observa 1 dato extremo en la localidad de Talcaruca correspondiente al gtratamiento de 500 microatmósferas, y que no existe interacción de la tasa metabólica de ambas localidades cuando se sometieron en el tratamineto de 1500 microatmósferas.
 \newpage
-```{r}
+```{r,echo=FALSE}
 Datos_2 <- Datos_Metabolismo %>% filter(Especie == "Scurria viridula")
 ```
 
 
-```{r}
+```{r,echo=FALSE}
 ggplot(Datos_2, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad),main="Scurria viridula") +
     geom_boxplot()+
   labs(y="Tasa metabólica")
@@ -142,5 +142,30 @@ tabla1<-Datos_Metabolismo%>%
 knitr::kable(tabla1,caption ="Media y varianza de Tasa metabólica")
 ```
 # Se observa una media más alta del metabolismo en Scurria zebrina correspondiente a la localidad de Talcaruca. Sin embargo, en la localidad de Los Molles no se observan grandes diferencias.
+
+Análisis de resultados
+
+Debido a que los datos según el histograma no tienen una distribucion normal, se debe hacer el análisis con métodos no paramétricos.
+
+# H0 : Existen diferencias en la respuesta de rasgos fisiológicos y morfológicos entre poblaciones de Scurria zebrina y scurria viridula bajo condiciones de acidificación.
+
+# H1 : No existen diferencias en la respuesta de rasgos fisiológicos y morfológicos entre poblaciones de Scurria zebrina y scurria viridula bajo condiciones de acidificación.
+
+
+
+```{r,echo=FALSE}
+ggplot(Datos_Metabolismo, aes(x = mgO2_h_1_g_1)) +
+  geom_histogram(aes(color = mgO2_h_1_g_1), 
+  position = "identity", bins = 30, alpha = 0.4)
+```
+
+Histograma sin filtrar por ninguna variable. 
+
+
+```{r,echo=FALSE}
+# Realiza test de correlación
+cor.test(Datos_Metabolismo$mgO2_h_1_g_1,Datos_Metabolismo$mgO2_h_1_g_1, method = "spearman", alternative = "two.sided")
+```
+
 
 
