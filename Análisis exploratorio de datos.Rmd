@@ -14,6 +14,9 @@ library(psych)
 library(readxl)
 library(dplyr)
 library(knitr)
+library(lmtest)
+library(car)
+library(boot)
 
 ```
 
@@ -159,13 +162,106 @@ ggplot(Datos_Metabolismo, aes(x = mgO2_h_1_g_1)) +
   position = "identity", bins = 30, alpha = 0.4)
 ```
 
-Histograma sin filtrar por ninguna variable. 
+Se realizó Histograma solo con la variable respuesta (mgO2_h_1_g_1) para ver su comportamiento.Dado que su distribución no es Normal, se procede entonces, a hacer un análisis con método no paramétrico. 
 
 
-```{r,echo=FALSE}
-# Realiza test de correlación
-cor.test(Datos_Metabolismo$mgO2_h_1_g_1,Datos_Metabolismo$mgO2_h_1_g_1, method = "spearman", alternative = "two.sided")
+
+Modelo lineal simple
+
+```{r}
+modelo3 <- lm(mgO2_h_1_g_1 ~ Especie + Tratamiento + Localidad  , 
+               data = Datos_Metabolismo )
+summary(modelo3)
+```
+
+```{r}
+Datos_Metabolismo$`Peso Boyante` <- as.factor(Datos_Metabolismo$`Peso Boyante`)
+```
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+Datos_Metabolismo %>%
+  ggplot(aes(x=mgO2_h_1_g_1, color=110)) +
+  geom_histogram(fill="white", position="dodge")+
+  theme(legend.position="none")
+```
+
+```{r}
+Datos_Metabolismo %>%
+  ggplot(aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=factor(Especie))) +
+  geom_boxplot()
 ```
 
 
+```{r}
+Datos_Metabolismo %>%
+  ggplot(aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=factor(Localidad))) +
+  geom_boxplot()
+Datos_Metabolismo %>% filter(mgO2_h_1_g_1 >= 1.5)
+datos_filtrados <-subset(Datos_Metabolismo,mgO2_h_1_g_1 <= 1.5)
+
+datos_filtrados %>%
+  ggplot(aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=factor(Localidad))) +
+  geom_boxplot()
+```
+
+Independencia
+```{r}
+plot(modelo3$residuals, pch=20, col = "blue")
+```
+
+
+```{r}
+dwtest(mgO2_h_1_g_1 ~ Especie + Tratamiento + Localidad, data =datos_filtrados,
+       alternative = c("two.sided"), 
+       iterations = 15)
+```
+No hay independencia 
+
+
+Homogeneidad de varianzas
+
+```{r}
+plot(modelo3, 1, pch=20, col = "blue")
+```
+El modelo indica que no hay homogeneidad de varianzas, existe correlación.
+
+```{r}
+leveneTest(mgO2_h_1_g_1 ~ Especie * Tratamiento * Localidad, data = datos_filtrados,
+           center = "median")
+```
+
+
+
+```{r}
+plot(modelo3, 2, pch=20, col = "blue")
+```
+El modelo indica que no se cumple el modelo de normalidad 
+
+
+
+```{r}
+aov_residuals <- residuals(object = modelo3)
+hist(x= aov_residuals, main = "Histograma de residuales")
+```
+
+```{r}
+shapiro.test(x= aov_residuals)
+```
+
+La hipótesis de rechaza debido a que el p valor es menor a 0.05.
+
+Debido a que no se cumplen los supuestos de normalidad, homogeneidad e independencia en los residuos, se propone entonces realizar análisis usando el enfoque no paramétrico.
+
+Enfoque No paramétrico
+
+
+
+```{r}
+kruskal.test(mgO2_h_1_g_1 ~ Especie, data = datos_filtrados)
+kruskal.test(mgO2_h_1_g_1 ~ Localidad, data = datos_filtrados)
+kruskal.test(mgO2_h_1_g_1 ~ Tratamiento, data = datos_filtrados)
+```
+Se eliminaron datos extremos del análisis, sin embargo, siguen influenciando en gran magnitud sobre el análisis de enfoque no paramétrico.
+
+Sólo la interacción entre mg de O2 y localidad tiene significancia, ya que el valor p valor es menor a 0.05.Por lo tanto el efecto Localidad si podria ser predictivo para el análisis . Efectivamente, se esperaría que la variable localidad tuviera un efecto signiicativo sobre la población, ya que se está comparando un sitio (Talcaruca) que presenta condiciones de acidificación constantes con otra localidad (Los Molles)donde sus condiciones son más estables.Por otra parte, el efecto tratamiento y especie no generan difeencias significativas en este estudio.
 
