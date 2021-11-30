@@ -53,7 +53,7 @@ ggplot(Datos_Metabolismo, aes(x = mgO2_h_1_g_1)) +
 ```
 Figura 1. Distribución de metabolismo de ambas especies.
 
-# Se observa que no existe una distibución normal, además los datos se encuentran hacia la izquiera de la media, (el metabolismo (variable respuesta) es una variable cuantitativa continua).
+Se observa que no existe una distibución normal, además los datos se encuentran hacia la izquiera de la media, (el metabolismo (variable respuesta) es una variable cuantitativa continua).
 
 \newpage
 ```{r,echo=FALSE,message=FALSE,warning=FALSE}
@@ -86,8 +86,8 @@ ggplot(Datos_1, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad),main="Scurria
 ```
 Figura 3. Tasa metabólica de Scurria zebrina , correspondiente a las localidades de Talcaruca y Los molles, bajo tres condiciones de acidificación.
 
-# La tasa metabólica correspondiente a Scurria zebrina de la localidad de Talcaruca presenta mayor variabilidad ya que la longitud de la "caja" es más grande en comparación a la localidad de Los Molles.  Además la posición de la mediana en Talcaruca de los tres tratamientos indica que tienen una  distribución simétrica en comparación a Los Molles. Además, la población de Los Molles presenta una asimetría negativa en los tratamientos de 500 y 800 microatmósferas. 
-# También se observa 1 dato extremo en la localidad de Talcaruca correspondiente al gtratamiento de 500 microatmósferas, y que no existe interacción de la tasa metabólica de ambas localidades cuando se sometieron en el tratamineto de 1500 microatmósferas.
+ La tasa metabólica correspondiente a Scurria zebrina de la localidad de Talcaruca presenta mayor variabilidad ya que la longitud de la "caja" es más grande en comparación a la localidad de Los Molles.  Además la posición de la mediana en Talcaruca de los tres tratamientos indica que tienen una  distribución simétrica en comparación a Los Molles. Además, la población de Los Molles presenta una asimetría negativa en los tratamientos de 500 y 800 microatmósferas. 
+ También se observa 1 dato extremo en la localidad de Talcaruca correspondiente al gtratamiento de 500 microatmósferas, y que no existe interacción de la tasa metabólica de ambas localidades cuando se sometieron en el tratamineto de 1500 microatmósferas.
 \newpage
 ```{r,echo=FALSE}
 Datos_2 <- Datos_Metabolismo %>% filter(Especie == "Scurria viridula")
@@ -102,8 +102,8 @@ ggplot(Datos_2, aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=Localidad),main="Scurria
 ```
 Figura 4. Tasa metabólica de Scurria viridula de ambas localidades, bajo tres condiciones de acidificación.
 
-# La tasa metabólica correspondiente a Scurria viridula de la localidad de Talcaruca presenta mayor variabilidad ya que la longitud de la "caja" es más grande en comparación a la localidad de Los Molles.  Además la posición de la mediana en Talcaruca de los tres tratamientos indica que tienen una  distribución simétrica en comparación a Los Molles. Se destaca que en la localidad de Los Molles tratamiento de 500, la mediana esta casi pegado al Q3, lo que se traduce en una menor variabilidad y una asimetría de los datos.  
-# También se observa más datos extremos (4) en ambas localidades, y que solo existe correlacion de ambas localidades en el tratamiento de 800 microatmósferas (No se solapan las "cajas") .
+La tasa metabólica correspondiente a Scurria viridula de la localidad de Talcaruca presenta mayor variabilidad ya que la longitud de la "caja" es más grande en comparación a la localidad de Los Molles.  Además la posición de la mediana en Talcaruca de los tres tratamientos indica que tienen una  distribución simétrica en comparación a Los Molles. Se destaca que en la localidad de Los Molles tratamiento de 500, la mediana esta casi pegado al Q3, lo que se traduce en una menor variabilidad y una asimetría de los datos.  
+ También se observa más datos extremos (4) en ambas localidades, y que solo existe correlacion de ambas localidades en el tratamiento de 800 microatmósferas (No se solapan las "cajas") .
 
 \newpage
 ```{r,echo=FALSE}
@@ -125,7 +125,7 @@ plot.design(Datos_Metabolismo$Localidad~ Datos_Metabolismo$mgO2_h_1_g_1 * Datos_
 ```
 Figura 7. Tasa metabólica bajo tres tratamientos de acidificación en ambas localidades.
 
-# Se observa que el factor localidad tiene mayor efecto sobre la variable respuesta. 
+Se observa que el factor localidad tiene mayor efecto sobre la variable respuesta. 
 
 ```{r,echo=FALSE,message=FALSE}
 tabla1<-Datos_Metabolismo%>%
@@ -144,39 +144,39 @@ tabla1<-Datos_Metabolismo%>%
 # Tabla con los datos
 knitr::kable(tabla1,caption ="Media y varianza de Tasa metabólica")
 ```
-# Se observa una media más alta del metabolismo en Scurria zebrina correspondiente a la localidad de Talcaruca. Sin embargo, en la localidad de Los Molles no se observan grandes diferencias.
+
+
+Se observa una media más alta del metabolismo en Scurria zebrina correspondiente a la localidad de Talcaruca. Sin embargo, en la localidad de Los Molles no se observan grandes diferencias.
 
 Análisis de resultados
 
-Debido a que los datos según el histograma no tienen una distribucion normal, se debe hacer el análisis con métodos no paramétricos.
+Se inicia el análisis de de resutados, evaluando los supuestos de normalidad; y se plantean las siquientes hipótesis:
 
-# H0 : Existen diferencias en la respuesta de rasgos fisiológicos y morfológicos entre poblaciones de Scurria zebrina y scurria viridula bajo condiciones de acidificación.
+H0 : Existen diferencias en la respuesta de rasgos fisiológicos y morfológicos entre poblaciones de Scurria zebrina y scurria viridula bajo condiciones de acidificación.
 
-# H1 : No existen diferencias en la respuesta de rasgos fisiológicos y morfológicos entre poblaciones de Scurria zebrina y scurria viridula bajo condiciones de acidificación.
-
-
-
-```{r,echo=FALSE}
-ggplot(Datos_Metabolismo, aes(x = mgO2_h_1_g_1)) +
-  geom_histogram(aes(color = mgO2_h_1_g_1), 
-  position = "identity", bins = 30, alpha = 0.4)
-```
-
-Se realizó Histograma solo con la variable respuesta (mgO2_h_1_g_1) para ver su comportamiento.Dado que su distribución no es Normal, se procede entonces, a hacer un análisis con método no paramétrico. 
+H1 : No existen diferencias en la respuesta de rasgos fisiológicos y morfológicos entre poblaciones de Scurria zebrina y scurria viridula bajo condiciones de acidificación.
 
 
 
 Modelo lineal simple
 
-```{r}
+Se establece un modelo donde se genera la interacción de mi variable respuesta (mgO2_h_1_g_1) en función de tres factores: Especie, Tratamiento + Localidad.
+
+```{r,echo=FALSE}
 modelo3 <- lm(mgO2_h_1_g_1 ~ Especie + Tratamiento + Localidad  , 
                data = Datos_Metabolismo )
 summary(modelo3)
 ```
 
-```{r}
+
+Los resultados indican que sólo existen diferencias significativas en el intercepto (>0.005) interacción entre especies y localidad.
+
+
+```{r,echo=FALSE}
 Datos_Metabolismo$`Peso Boyante` <- as.factor(Datos_Metabolismo$`Peso Boyante`)
 ```
+\newpage
+Se evaluó sólo la variable de mgO2_h_1_g_1 para ver su comportamiento.
 
 ```{r,echo=FALSE,message=FALSE,warning=FALSE}
 Datos_Metabolismo %>%
@@ -185,14 +185,21 @@ Datos_Metabolismo %>%
   theme(legend.position="none")
 ```
 
-```{r}
+Figura 8: Histograma de frecuencia de la variable en estudio.
+
+Se observa que no existe una distribución normal de la variable en estudio.
+
+```{r,echo=FALSE}
 Datos_Metabolismo %>%
   ggplot(aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=factor(Especie))) +
   geom_boxplot()
 ```
 
+Figura 9: Metabolismo (mgO2_h_1_g_1)en función de cada especie por tratamiento.
 
-```{r}
+Se observa que existen varios datos extremos, lo que incide directamente en el comportamiento de la variable respuesta. Se procede entonces a graficar filtrando los datos extremos.
+
+```{r,echo=FALSE}
 Datos_Metabolismo %>%
   ggplot(aes(x=Tratamiento, y=mgO2_h_1_g_1, fill=factor(Localidad))) +
   geom_boxplot()
@@ -204,47 +211,70 @@ datos_filtrados %>%
   geom_boxplot()
 ```
 
+Figura 10: Metabolismo (mgO2_h_1_g_1)en función de la localidad por cada tratamiento.
+
+Se observa que a pesar de que los valores extremos fueron excluídos, tienen una fuerte incidencia en los datos.
+\newpage
+Evaluación de supuestos de normalidad
+
 Independencia
-```{r}
+
+```{r,echo=FALSE}
 plot(modelo3$residuals, pch=20, col = "blue")
 ```
 
+Figura 11: Evaluación de independencia sobre los residuos.
 
-```{r}
+Se observa que no es completamente homogénea la distribución.
+
+Se pone a prueba el test de Durbin-Watson test
+
+```{r,echo=FALSE}
 dwtest(mgO2_h_1_g_1 ~ Especie + Tratamiento + Localidad, data =datos_filtrados,
        alternative = c("two.sided"), 
        iterations = 15)
 ```
-No hay independencia 
 
-
+\newpage
 Homogeneidad de varianzas
 
-```{r}
+```{r,echo=FALSE}
 plot(modelo3, 1, pch=20, col = "blue")
 ```
-El modelo indica que no hay homogeneidad de varianzas, existe correlación.
 
-```{r}
+Figura 12: El modelo indica que no hay homogeneidad de varianzas, existe correlación.
+
+Se procede a evaluar el supuesto con el test de Levene
+
+```{r,echo=FALSE}
 leveneTest(mgO2_h_1_g_1 ~ Especie * Tratamiento * Localidad, data = datos_filtrados,
            center = "median")
 ```
 
+Los resultados indican que existe homogeneidad de varianzas.
 
-
-```{r}
+```{r,echo=FALSE}
 plot(modelo3, 2, pch=20, col = "blue")
 ```
+
+Figura 13: Curva de residuos estandarizado para evaluar supuesto de normalidad.
+
 El modelo indica que no se cumple el modelo de normalidad 
 
 
 
-```{r}
+```{r,echo=FALSE}
 aov_residuals <- residuals(object = modelo3)
 hist(x= aov_residuals, main = "Histograma de residuales")
 ```
 
-```{r}
+Figura 14: Histograma de residuales.
+
+Se observa que no existe una distribución homogénea y normal.
+
+ 
+
+```{r,echo=FALSE}
 shapiro.test(x= aov_residuals)
 ```
 
@@ -253,15 +283,22 @@ La hipótesis de rechaza debido a que el p valor es menor a 0.05.
 Debido a que no se cumplen los supuestos de normalidad, homogeneidad e independencia en los residuos, se propone entonces realizar análisis usando el enfoque no paramétrico.
 
 Enfoque No paramétrico
+ 
+ Test de kruskal
 
 
-
-```{r}
+```{r,echo=FALSE}
 kruskal.test(mgO2_h_1_g_1 ~ Especie, data = datos_filtrados)
 kruskal.test(mgO2_h_1_g_1 ~ Localidad, data = datos_filtrados)
 kruskal.test(mgO2_h_1_g_1 ~ Tratamiento, data = datos_filtrados)
 ```
+
+
+Sólo la interacción de mgO2_h_1_g_1 y localidad es significativa, p menor a 0.05.
+
+#Conclusión
+
 Se eliminaron datos extremos del análisis, sin embargo, siguen influenciando en gran magnitud sobre el análisis de enfoque no paramétrico.
 
-Sólo la interacción entre mg de O2 y localidad tiene significancia, ya que el valor p valor es menor a 0.05.Por lo tanto el efecto Localidad si podria ser predictivo para el análisis . Efectivamente, se esperaría que la variable localidad tuviera un efecto signiicativo sobre la población, ya que se está comparando un sitio (Talcaruca) que presenta condiciones de acidificación constantes con otra localidad (Los Molles)donde sus condiciones son más estables.Por otra parte, el efecto tratamiento y especie no generan difeencias significativas en este estudio.
+Sólo la interacción entre mg de O2 y localidad tiene significancia, ya que el valor p valor es menor a 0.05.Por lo tanto el efecto Localidad si podria ser predictivo para el análisis . Efectivamente, se esperaría que la variable localidad tuviera un efecto significativo sobre la población, ya que se está comparando un sitio (Talcaruca) que presenta condiciones de acidificación constantes con otra localidad (Los Molles)donde sus condiciones son más estables.Por otra parte, el efecto tratamiento y especie no generan diferencias significativas en este estudio.
 
